@@ -1,7 +1,8 @@
 class PrototypesController < ApplicationController
-  before_action :authenticate_user!, except: [:index]
-  before_action :set_prototype, only: [:show, :edit, :update]
-  before_action :move_to_index, only: [:edit]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_prototype, except: [:index, :new, :create]
+  before_action :move_to_index, only: [:edit, :update, :destroy]
+
 
   def index
     @prototypes = Prototype.all
@@ -12,7 +13,7 @@ class PrototypesController < ApplicationController
   end
 
   def create
-    @prototype = Prototype.create(prototype_params)
+    @prototype = Prototype.new(prototype_params)
     if @prototype.save
        redirect_to '/'
     else
